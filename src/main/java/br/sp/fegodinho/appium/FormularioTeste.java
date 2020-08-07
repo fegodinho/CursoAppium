@@ -44,5 +44,31 @@ public class FormularioTeste {
 	    
 	    driver.quit();
 	}
+	
+	@Test
+	public void deveInteragirComCombo() throws MalformedURLException {
+		DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+	    desiredCapabilities.setCapability("platformName", "Android");
+	    desiredCapabilities.setCapability("deviceName", "emulator-5554");
+	    desiredCapabilities.setCapability("automationName", "uiautomator2");
+	    desiredCapabilities.setCapability(MobileCapabilityType.APP, "C:\\Users\\Felipe\\Desktop\\CursoAppium\\src\\main\\resources\\CTAppium_1_2.apk");	    
+	    	    
+	    AndroidDriver<MobileElement> driver = new AndroidDriver(new URL("http://localhost:4723/wd/hub"), desiredCapabilities);
+	    driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+	    
+	    //Selecionar formulario
+	    driver.findElement(By.xpath("//android.widget.TextView[@text='Formulário']")).click();
+	    
+	    //clicar combo
+	    driver.findElement(MobileBy.AccessibilityId("console")).click();
+	    
+	    //selecionar opcao desejada
+	    driver.findElement(By.xpath("//android.widget.CheckedTextView[@text='Nintendo Switch']")).click();
+	    
+	    //verificar opcao selecionada
+	    String text = driver.findElement(By.xpath("//android.widget.Spinner/android.widget.TextView")).getText();
+	    Assert.assertEquals("Nintendo Switch", text);
+	    driver.quit();
+	}
 
 }
