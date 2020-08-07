@@ -70,5 +70,37 @@ public class FormularioTeste {
 	    Assert.assertEquals("Nintendo Switch", text);
 	    driver.quit();
 	}
+	
+	@Test
+	public void deveInteragirComSwitchAndCheckBox() throws MalformedURLException {
+		DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+	    desiredCapabilities.setCapability("platformName", "Android");
+	    desiredCapabilities.setCapability("deviceName", "emulator-5554");
+	    desiredCapabilities.setCapability("automationName", "uiautomator2");
+	    desiredCapabilities.setCapability(MobileCapabilityType.APP, "C:\\Users\\Felipe\\Desktop\\CursoAppium\\src\\main\\resources\\CTAppium_1_2.apk");	    
+	    	    
+	    AndroidDriver<MobileElement> driver = new AndroidDriver(new URL("http://localhost:4723/wd/hub"), desiredCapabilities);
+	    driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+	    
+	    //Selecionar formulario
+	    driver.findElement(By.xpath("//*[@text='Formulário']")).click();
+	    
+	    //verificar status dos elementos
+	    MobileElement check = driver.findElement(By.className("android.widget.CheckBox"));
+	    MobileElement switc = driver.findElement(MobileBy.AccessibilityId("switch"));
+	    
+	    Assert.assertTrue(check.getAttribute("checked").equals("false"));
+	    Assert.assertTrue(switc.getAttribute("checked").equals("true"));
+	    
+	    //clicar nos elementos
+	    check.click();
+	    switc.click();
+	    
+	    //verificar estados alterados
+	    Assert.assertFalse(check.getAttribute("checked").equals("false"));
+	    Assert.assertFalse(switc.getAttribute("checked").equals("true"));
+	    
+	    driver.quit();
+	}
 
 }
